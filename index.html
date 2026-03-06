@@ -19,7 +19,7 @@
       --text:         #1a1612;
       --text-2:       #5c5040;
       --text-3:       #8c7b65;
-      --accent:       #a64d1d; /* UPDATED: Deeper tone for WCAG contrast compliance */
+      --accent:       #b85c2a;
       --accent-soft:  #f5e6d8;
       --accent-2:     #2a6b8c;
       --accent-2-soft:#d8ecf5;
@@ -132,38 +132,6 @@
       cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
     }
     .theme-btn:hover { border-color: var(--text-3); color: var(--text); }
-
-    /* ============================================================
-       COPY BUTTON STYLES
-    ============================================================ */
-    .code-block-wrapper {
-      position: relative;
-    }
-    .copy-btn {
-      position: absolute;
-      top: 0.8rem;
-      right: 0.8rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: var(--code-text);
-      padding: 0.35rem 0.7rem;
-      font-size: 0.65rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: all 0.2s;
-      opacity: 0;
-    }
-    .code-block-wrapper:hover .copy-btn {
-      opacity: 1;
-    }
-    .copy-btn:hover {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
 
     /* ============================================================
        HERO
@@ -292,12 +260,28 @@
       font-size: 0.88rem; color: var(--text-2); margin-bottom: 1rem;
       padding-bottom: 1rem; border-bottom: 1px solid var(--border-light);
     }
+
+    /* Added relative position for the Copy button */
+    .code-container { position: relative; }
+
     pre {
       background: var(--code-bg); color: var(--code-text);
       font-family: 'Courier New', monospace; font-size: 0.82rem;
       line-height: 1.75; padding: 1.4rem; border-radius: var(--radius-lg);
       overflow-x: auto; border: 1px solid rgba(255,255,255,0.04);
     }
+
+    /* Copy Button Styling */
+    .copy-btn {
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--code-text); font-size: 0.65rem; font-weight: 500;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px;
+      cursor: pointer; opacity: 0; transition: all 0.2s;
+    }
+    .code-container:hover .copy-btn { opacity: 1; }
+    .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
     .ck { color: #7a6a50; }
     .kw { color: #d4a870; }
     .st { color: #8fb880; }
@@ -320,6 +304,7 @@
       background: var(--border); border: 1px solid var(--border);
       border-radius: var(--radius-lg); overflow: hidden; margin-top: 2rem;
     }
+    @media(max-width:640px) { .playground-grid { grid-template-columns: 1fr; } }
     .pane-header {
       padding: 0.6rem 1.2rem; background: var(--bg-inset);
       border-bottom: 1px solid var(--border); font-size: 0.7rem; font-weight: 500;
@@ -469,14 +454,9 @@
 
     #confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:999; }
 
-    /* ============================================================
-       RESPONSIVE ADJUSTMENTS
-    ============================================================ */
-    @media(max-width:640px) {
+    @media(max-width:600px) {
       .nav-links { display: none; }
       section { padding: 4rem 0; }
-      .playground-grid { grid-template-columns: 1fr; }
-      .code-editor, .preview-pane, .preview-pane iframe { min-height: 220px; }
     }
   </style>
 </head>
@@ -586,7 +566,7 @@
         <p>
           A programming language is a tool built for a specific purpose. For most beginners,
           HTML is the right place to start. Below is what five of the most common beginner languages
-          look like.
+          look like, each doing the same thing in a different way.
         </p>
         <div class="tab-bar" style="margin-top:2rem;">
           <button class="tab active" onclick="switchLang(event,'html')">HTML</button>
@@ -598,9 +578,9 @@
 
         <div id="lp-html" class="lang-panel card active">
           <p class="lang-note">HTML structures the content of every webpage. It is not technically a programming language, but it is where every web developer begins.</p>
-          <div class="code-block-wrapper">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="ck">&lt;!-- A comment. The browser ignores this. --&gt;</span>
+          <div class="code-container">
+            <button class="copy-btn" onclick="copyContent('html-code')">Copy</button>
+            <pre id="html-code"><span class="ck">&lt;!-- A comment. The browser ignores this. --&gt;</span>
 <span class="kw">&lt;h1&gt;</span>Hello, World!<span class="kw">&lt;/h1&gt;</span>
 <span class="kw">&lt;p&gt;</span>This is a paragraph of text.<span class="kw">&lt;/p&gt;</span>
 <span class="kw">&lt;a href=</span><span class="st">"https://example.com"</span><span class="kw">&gt;</span>This is a link<span class="kw">&lt;/a&gt;</span>
@@ -611,9 +591,9 @@
 
         <div id="lp-css" class="lang-panel card">
           <p class="lang-note">CSS controls how HTML looks: colors, fonts, spacing, layout. It is what separates a raw document from a designed page.</p>
-          <div class="code-block-wrapper">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="ck">/* Change how the whole page looks */</span>
+          <div class="code-container">
+            <button class="copy-btn" onclick="copyContent('css-code')">Copy</button>
+            <pre id="css-code"><span class="ck">/* Change how the whole page looks */</span>
 <span class="fn">body</span> {
   <span class="kw">background-color</span>: <span class="st">#faf7f2</span>;
   <span class="kw">font-family</span>:      <span class="st">Georgia, serif</span>;
@@ -621,16 +601,18 @@
   <span class="kw">max-width</span>:        <span class="nm">700px</span>;
   <span class="kw">margin</span>:           <span class="nm">0</span> auto;
 }
-<span class="fn">h1</span> { <span class="kw">font-size</span>: <span class="nm">2.5rem</span>; }</pre>
+<span class="fn">h1</span> {
+  <span class="kw">font-size</span>:        <span class="nm">2.5rem</span>;
+}</pre>
           </div>
           <div class="lang-tip"><strong>Start here if</strong> you are drawn to design. CSS is immediately gratifying: one line changes the entire appearance of a page.</div>
         </div>
 
         <div id="lp-js" class="lang-panel card">
           <p class="lang-note">JavaScript makes websites interactive. Buttons that respond, forms that validate, animations, games — all of it is JavaScript.</p>
-          <div class="code-block-wrapper">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="ck">// Store a value in a variable</span>
+          <div class="code-container">
+            <button class="copy-btn" onclick="copyContent('js-code')">Copy</button>
+            <pre id="js-code"><span class="ck">// Store a value in a variable</span>
 <span class="kw">let</span> name = <span class="st">"World"</span>;
 
 <span class="ck">// Print to the browser's console</span>
@@ -638,7 +620,7 @@ console.<span class="fn">log</span>(<span class="st">`Hello, ${name}!`</span>);
 
 <span class="ck">// React when a button is clicked</span>
 document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
-  .<span class="fn">addEventListener</span>(<span class="st">"click"</span>, () =&gt; {
+  .<span class="fn">addEventListener</span>(<span class="st">"click"</span>, () => {
     <span class="fn">alert</span>(<span class="st">"You clicked it!"</span>);
   });</pre>
           </div>
@@ -646,10 +628,10 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
         </div>
 
         <div id="lp-python" class="lang-panel card">
-          <p class="lang-note">Python reads almost like plain English. It is the dominant language for data science, AI, and automation.</p>
-          <div class="code-block-wrapper">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="ck"># Print a message to the terminal</span>
+          <p class="lang-note">Python reads almost like plain English. It is the dominant language for data science, AI, and automation, and one of the most beginner-friendly options available.</p>
+          <div class="code-container">
+            <button class="copy-btn" onclick="copyContent('python-code')">Copy</button>
+            <pre id="python-code"><span class="ck"># Print a message to the terminal</span>
 <span class="kw">print</span>(<span class="st">"Hello, World!"</span>)
 
 <span class="ck"># Define a reusable function</span>
@@ -662,16 +644,16 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
         </div>
 
         <div id="lp-swift" class="lang-panel card">
-          <p class="lang-note">Swift is Apple's language for building iPhone, iPad, and Mac apps. It is modern, fast, and designed to be readable.</p>
-          <div class="code-block-wrapper">
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-            <pre><span class="ck">// Swift — used for iOS and macOS apps</span>
+          <p class="lang-note">Swift is Apple's language for building iPhone, iPad, and Mac apps. It is modern, fast, and designed from the ground up to be readable.</p>
+          <div class="code-container">
+            <button class="copy-btn" onclick="copyContent('swift-code')">Copy</button>
+            <pre id="swift-code"><span class="ck">// Swift — used for iOS and macOS apps</span>
 <span class="kw">import</span> Foundation
 
 <span class="kw">let</span> greeting: <span class="ty">String</span> = <span class="st">"Hello, World!"</span>
 <span class="fn">print</span>(greeting)
 
-<span class="kw">func</span> <span class="fn">greet</span>(name: <span class="ty">String</span>) -&gt; <span class="ty">String</span> {
+<span class="kw">func</span> <span class="fn">greet</span>(name: <span class="ty">String</span>) -> <span class="ty">String</span> {
     <span class="kw">return</span> <span class="st">"Hello, \(name)!"</span>
 }</pre>
           </div>
@@ -685,8 +667,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
         <div class="label">Interactive playground</div>
         <h2>Write real code. See it instantly.</h2>
         <p>
-          This is a live HTML editor. Edit the code on the left and press
-          <strong>Run</strong> to render it on the right.
+          This is a live HTML editor. Edit the code on the left and press <strong>Run</strong> to render it on the right.
+          Load any example below to see what a few lines of code can produce.
         </p>
       </div>
       <div class="container-wide reveal">
@@ -704,13 +686,16 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
           <div>
             <div class="pane-header">
               Editor
-              <button class="run-btn" onclick="runCode()">Run</button>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="run-btn" style="background: var(--accent-2);" onclick="copyContent('code-editor', true)">Copy</button>
+                <button class="run-btn" onclick="runCode()">Run</button>
+              </div>
             </div>
             <textarea class="code-editor" id="code-editor" spellcheck="false"></textarea>
           </div>
           <div class="preview-pane">
-            <div class="pane-header">Preview</div>
-            <iframe id="preview-frame" title="Live preview"></iframe>
+            <div class="pane-header">Result</div>
+            <iframe id="preview"></iframe>
           </div>
         </div>
       </div>
@@ -718,71 +703,41 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
     <section id="roadmap">
       <div class="container reveal">
-        <div class="label">Learning roadmap</div>
-        <h2>A clear path from zero to building things.</h2>
-        <p>
-          The most common mistake beginners make is trying to learn everything at once.
-          Follow this sequence.
-        </p>
-
+        <div class="label">The Roadmap</div>
+        <h2>Your first six months.</h2>
+        <p>Learning to code is a marathon, not a sprint. Follow this path to go from zero to building your first real applications.</p>
+        
         <div class="roadmap">
-          <div class="roadmap-item reveal">
-            <div class="roadmap-left">
-              <div class="roadmap-dot">1</div>
-              <div class="roadmap-line"></div>
-            </div>
+          <div class="roadmap-item">
+            <div class="roadmap-left"><div class="roadmap-dot">1</div><div class="roadmap-line"></div></div>
             <div class="roadmap-content">
-              <div class="roadmap-meta">Weeks 1&ndash;2 &nbsp;&middot;&nbsp; ~8 hours total</div>
-              <h3>HTML Fundamentals</h3>
-              <p style="font-size:0.88rem;">Learn what tags are and how web pages are structured. Build your first page. Small scope, high confidence.</p>
+              <div class="roadmap-meta">Month 1</div>
+              <h3>The Foundations (HTML &amp; CSS)</h3>
+              <p>Learn how to structure content and make it look beautiful. Build static pages like a personal resume or a landing page for a fictional product.</p>
             </div>
           </div>
-
-          <div class="roadmap-item reveal">
-            <div class="roadmap-left">
-              <div class="roadmap-dot">2</div>
-              <div class="roadmap-line"></div>
-            </div>
+          <div class="roadmap-item">
+            <div class="roadmap-left"><div class="roadmap-dot">2</div><div class="roadmap-line"></div></div>
             <div class="roadmap-content">
-              <div class="roadmap-meta">Weeks 2&ndash;4 &nbsp;&middot;&nbsp; ~12 hours total</div>
-              <h3>CSS Fundamentals</h3>
-              <p style="font-size:0.88rem;">Style your HTML. Colors, fonts, padding, borders. This is where things start looking like real websites.</p>
+              <div class="roadmap-meta">Month 2-3</div>
+              <h3>Logic &amp; Interactivity (JavaScript)</h3>
+              <p>Learn how to make your pages do things. Variables, functions, and manipulating the Document Object Model (DOM). Build a calculator or a to-do list.</p>
             </div>
           </div>
-
-          <div class="roadmap-item reveal">
-            <div class="roadmap-left">
-              <div class="roadmap-dot">3</div>
-              <div class="roadmap-line"></div>
-            </div>
+          <div class="roadmap-item">
+            <div class="roadmap-left"><div class="roadmap-dot">3</div><div class="roadmap-line"></div></div>
             <div class="roadmap-content">
-              <div class="roadmap-meta">Month 2 &nbsp;&middot;&nbsp; ~20 hours total</div>
-              <h3>JavaScript Basics</h3>
-              <p style="font-size:0.88rem;">Variables, functions, loops. Then DOM manipulation: making buttons respond and handling user input.</p>
+              <div class="roadmap-meta">Month 4</div>
+              <h3>Tooling &amp; Workflow (Git &amp; Terminal)</h3>
+              <p>Learn how professional developers work. Version control with Git, using the command line, and managing packages. This is where you become efficient.</p>
             </div>
           </div>
-
-          <div class="roadmap-item reveal">
-            <div class="roadmap-left">
-              <div class="roadmap-dot">4</div>
-              <div class="roadmap-line"></div>
-            </div>
+          <div class="roadmap-item">
+            <div class="roadmap-left"><div class="roadmap-dot">4</div><div class="roadmap-line"></div></div>
             <div class="roadmap-content">
-              <div class="roadmap-meta">Month 2&ndash;3 &nbsp;&middot;&nbsp; ~6 hours total</div>
-              <h3>Git and GitHub</h3>
-              <p style="font-size:0.88rem;">Save your work. Share your projects publicly. Host websites for free. Essential for professional growth.</p>
-            </div>
-          </div>
-
-          <div class="roadmap-item reveal">
-            <div class="roadmap-left">
-              <div class="roadmap-dot">5</div>
-              <div class="roadmap-line"></div>
-            </div>
-            <div class="roadmap-content">
-              <div class="roadmap-meta">Month 3 onward</div>
-              <h3>Build Projects</h3>
-              <p style="font-size:0.88rem;">This is where real learning happens. Pick something small. Build it. Show it to someone. Repeat indefinitely.</p>
+              <div class="roadmap-meta">Month 5-6</div>
+              <h3>Building for Real (Projects)</h3>
+              <p>Combine everything you've learned. Build a weather app using real data, or a small social network profile. Focus on finishing and deploying your work.</p>
             </div>
           </div>
         </div>
@@ -791,133 +746,61 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
     <section id="projects">
       <div class="container reveal">
-        <div class="label">First projects</div>
-        <h2>Things worth building as a beginner.</h2>
-        <p>
-          Building things is what actually moves you forward.
-          These projects are achievable and satisfying to finish.
-        </p>
-      </div>
-      <div class="container-wide reveal">
+        <div class="label">Starter projects</div>
+        <h2>Stop watching tutorials. Start building.</h2>
+        <p>The best way to learn is to struggle with a real problem. These projects will test your skills and give you something to show for your effort.</p>
+        
         <div class="project-grid">
           <div class="project-item">
-            <div class="project-level level-starter">Starter</div>
-            <h3>Personal card</h3>
-            <p style="font-size:0.85rem;">Your name, a short bio, a photo. Pure HTML and CSS. Takes an afternoon.</p>
+            <span class="project-level level-starter">Starter</span>
+            <h3>Personal Portfolio</h3>
+            <p style="font-size:0.87rem; margin-top:0.5rem;">A simple website about you. Includes your bio, skills, and links to your work. Uses HTML and CSS.</p>
           </div>
           <div class="project-item">
-            <div class="project-level level-starter">Starter</div>
-            <h3>Quote generator</h3>
-            <p style="font-size:0.85rem;">A button that shows a new quote each click. Introduces click events and JavaScript.</p>
+            <span class="project-level level-starter">Starter</span>
+            <h3>Digital Business Card</h3>
+            <p style="font-size:0.87rem; margin-top:0.5rem;">A mobile-friendly card with your contact info and social links. Great for practicing layouts and buttons.</p>
           </div>
           <div class="project-item">
-            <div class="project-level level-starter">Starter</div>
-            <h3>Countdown timer</h3>
-            <p style="font-size:0.85rem;">Count down to a date. Teaches timing functions and real-time data display.</p>
+            <span class="project-level level-next">Next step</span>
+            <h3>JavaScript Quiz</h3>
+            <p style="font-size:0.87rem; margin-top:0.5rem;">A quiz like the one below! Practice storing questions in arrays and tracking a user's score.</p>
           </div>
           <div class="project-item">
-            <div class="project-level level-next">Next step</div>
-            <h3>To-do list</h3>
-            <p style="font-size:0.85rem;">Add and delete tasks. Learn how to modify HTML elements dynamically with JS.</p>
-          </div>
-          <div class="project-item">
-            <div class="project-level level-next">Next step</div>
-            <h3>Rock paper scissors</h3>
-            <p style="font-size:0.85rem;">A game against the computer. Introduces randomness and conditional logic.</p>
-          </div>
-          <div class="project-item">
-            <div class="project-level level-next">Next step</div>
-            <h3>Portfolio site</h3>
-            <p style="font-size:0.85rem;">A real site with your projects. The canonical developer milestone.</p>
+            <span class="project-level level-next">Next step</span>
+            <h3>Weather Dashboard</h3>
+            <p style="font-size:0.87rem; margin-top:0.5rem;">Connect to a real data source (API) to show the current weather in any city. Challenging but rewarding.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="darkmode">
+    <section id="explainer">
       <div class="container reveal">
-        <div class="label">How this page works</div>
-        <h2>How the dark mode on this page was built.</h2>
-        <p>
-          The toggle is roughly twenty lines of CSS and one small JavaScript function. 
-          Here is how you can add it to any site.
-        </p>
-
-        <div style="margin-top:2.5rem;">
-          <div class="explainer-step reveal">
-            <div class="step-num">1</div>
+        <div class="label">How it works</div>
+        <h2>Under the hood.</h2>
+        <p>When you type a URL into your browser, a complex series of events happens in milliseconds. Here is the simplified version.</p>
+        
+        <div style="margin-top:3rem;">
+          <div class="explainer-step">
+            <div class="step-num">01</div>
             <div>
-              <h3>Define CSS variables</h3>
-              <p style="font-size:0.88rem; margin-bottom:0.8rem;">
-                Define variables inside <code>:root</code>. Every element referencing
-                <code>var(--bg)</code> will update automatically.
-              </p>
-              <div class="code-block-wrapper">
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                <pre><span class="fn">:root</span> {
-  <span class="kw">--bg</span>:     <span class="nm">#faf7f2</span>;
-  <span class="kw">--text</span>:   <span class="nm">#1a1612</span>;
-}
-<span class="fn">body</span> {
-  <span class="kw">background</span>: <span class="st">var(--bg)</span>;
-}</pre>
-              </div>
+              <h3>The Request</h3>
+              <p>Your browser sends a message across the internet to a server (a powerful computer) asking for the files for that website.</p>
             </div>
           </div>
-
-          <div class="explainer-step reveal">
-            <div class="step-num">2</div>
+          <div class="explainer-step">
+            <div class="step-num">02</div>
             <div>
-              <h3>Override for dark mode</h3>
-              <p style="font-size:0.88rem; margin-bottom:0.8rem;">
-                When the <code>&lt;html&gt;</code> element has <code>data-theme="dark"</code>, 
-                redefine those variables.
-              </p>
-              <div class="code-block-wrapper">
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                <pre><span class="fn">[data-theme="dark"]</span> {
-  <span class="kw">--bg</span>:     <span class="nm">#100e0b</span>;
-  <span class="kw">--text</span>:   <span class="nm">#ede6da</span>;
-}</pre>
-              </div>
+              <h3>The Response</h3>
+              <p>The server finds the HTML, CSS, and JavaScript files and sends them back to your computer in small pieces called packets.</p>
             </div>
           </div>
-
-          <div class="explainer-step reveal">
-            <div class="step-num">3</div>
+          <div class="explainer-step">
+            <div class="step-num">03</div>
             <div>
-              <h3>Toggle with JavaScript</h3>
-              <div class="code-block-wrapper">
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                <pre><span class="kw">function</span> <span class="fn">toggleTheme</span>() {
-  <span class="kw">const</span> html   = document.documentElement;
-  <span class="kw">const</span> isDark = html.dataset.theme === <span class="st">"dark"</span>;
-  html.dataset.theme = isDark ? <span class="st">"light"</span> : <span class="st">"dark"</span>;
-}</pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="quiz">
-      <div class="container reveal">
-        <div class="label">Quiz</div>
-        <h2>Test what you have learned.</h2>
-        <p>Five questions. No pressure, no timer.</p>
-
-        <div class="quiz-wrap">
-          <div class="quiz-body">
-            <div class="quiz-q" id="quiz-q"></div>
-            <div class="quiz-options" id="quiz-opts"></div>
-            <div class="quiz-feedback" id="quiz-feedback"></div>
-          </div>
-          <div class="quiz-footer">
-            <span>Question <span id="quiz-num">1</span> of 5 &nbsp;&middot;&nbsp; Score: <span id="quiz-score">0</span></span>
-            <div style="display:flex;gap:0.5rem;">
-              <button class="snippet-btn" id="quiz-next-btn" onclick="nextQ()" style="display:none;">Next</button>
-              <button class="snippet-btn" id="quiz-restart-btn" onclick="restartQuiz()" style="display:none;">Restart</button>
+              <h3>The Rendering</h3>
+              <p>Your browser's "engine" reads the code and turns it into the colors, images, and text you see on your screen.</p>
             </div>
           </div>
         </div>
@@ -926,30 +809,50 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
     <section id="mindset">
       <div class="container reveal">
-        <div class="label">Mindset</div>
-        <h2>The part no one talks about.</h2>
-        <div class="pull-quote reveal">
-          Everyone who codes well today was once completely lost.
-          The only difference is that they kept going anyway.
-          <span class="pull-attr">A professional developer truth</span>
-        </div>
+        <div class="label">The Mindset</div>
+        <h2>Thinking like a developer.</h2>
+        <p>Coding is more about problem-solving than it is about memorizing syntax. You need to change how you approach challenges.</p>
+        
+        <blockquote class="pull-quote">
+          "The most important skill of a computer scientist is problem solving. It means the ability to formulate problems, think creatively about solutions, and express a solution clearly and accurately."
+          <span class="pull-attr">&mdash; Allen B. Downey</span>
+        </blockquote>
 
-        <div class="principle-grid reveal">
+        <div class="principle-grid">
           <div class="principle">
-            <div class="principle-title">Bugs are normal.</div>
-            <p style="font-size:0.85rem;">Senior engineers spend most of their time debugging. Getting stuck is the work.</p>
+            <h3 class="principle-title">Break it down</h3>
+            <p style="font-size:0.85rem;">Never try to solve a big problem all at once. Break it into tiny, manageable steps. If a step feels hard, it’s still too big.</p>
           </div>
           <div class="principle">
-            <div class="principle-title">Google everything.</div>
-            <p style="font-size:0.85rem;">Knowing how to find answers is more valuable than memorizing syntax.</p>
+            <h3 class="principle-title">Embrace the error</h3>
+            <p style="font-size:0.85rem;">Errors aren't failures; they are the most valuable feedback you get. Read them carefully—they usually tell you exactly what’s wrong.</p>
           </div>
           <div class="principle">
-            <div class="principle-title">Build over watch.</div>
-            <p style="font-size:0.85rem;">Tutorials feel productive. Building things is what actually moves you forward.</p>
+            <h3 class="principle-title">Google is your friend</h3>
+            <p style="font-size:0.85rem;">Professional developers google things constantly. Knowing what to search for is more important than knowing everything by heart.</p>
           </div>
-          <div class="principle">
-            <div class="principle-title">Consistency wins.</div>
-            <p style="font-size:0.85rem;">Thirty minutes daily beats long weekend sessions. Frequency matters.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="container reveal">
+        <div class="label">Check your knowledge</div>
+        <h2>Ready to test what you've learned?</h2>
+        <p>This simple quiz covers the basics we've discussed. Don't worry if you don't get them all right—you can always scroll back up.</p>
+        
+        <div class="quiz-wrap">
+          <div class="quiz-body" id="quiz-container">
+            <div class="quiz-q" id="quiz-question">Loading question...</div>
+            <div class="quiz-options" id="quiz-options"></div>
+            <div class="quiz-feedback" id="quiz-feedback"></div>
+          </div>
+          <div class="quiz-footer">
+            <div>Score: <span id="quiz-score">0</span></div>
+            <div id="quiz-controls">
+              <button class="run-btn" id="quiz-next-btn" style="display:none;" onclick="nextQ()">Next question</button>
+              <button class="run-btn" id="quiz-restart-btn" style="display:none;" onclick="restartQuiz()">Restart quiz</button>
+            </div>
           </div>
         </div>
       </div>
@@ -957,49 +860,44 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
     <section id="github">
       <div class="container reveal">
-        <div class="label">Publishing your work</div>
-        <h2>How to put a page online, for free.</h2>
-        <div class="gh-steps reveal">
+        <div class="label">The final step</div>
+        <h2>Go live on GitHub.</h2>
+        <p>Once you've built your website, it's time to share it with the world. GitHub Pages makes this incredibly easy and free.</p>
+        
+        <div class="gh-steps">
           <div class="gh-step">
             <div class="gh-num">1</div>
             <div class="gh-body">
-              <h3>GitHub Account</h3>
-              <p style="font-size:0.87rem;">Go to <a href="https://github.com" target="_blank">github.com</a> and sign up.</p>
+              <h3>Create a Repository</h3>
+              <p style="font-size:0.88rem;">Log in to GitHub and click "New" to create a repository. Give it a name like "my-first-website."</p>
             </div>
           </div>
           <div class="gh-step">
             <div class="gh-num">2</div>
             <div class="gh-body">
-              <h3>New Repository</h3>
-              <p style="font-size:0.87rem;">Click <strong>+</strong>, then "New repository." Name it <code>my-site</code>.</p>
+              <h3>Upload your files</h3>
+              <p style="font-size:0.88rem;">Drag and drop your <code>index.html</code> (and any CSS or image files) directly into the browser to upload them.</p>
             </div>
           </div>
           <div class="gh-step">
             <div class="gh-num">3</div>
             <div class="gh-body">
-              <h3>Upload index.html</h3>
-              <p style="font-size:0.87rem;">Inside the repo, click "Add file" and drag your <code>index.html</code> in.</p>
+              <h3>Enable Pages</h3>
+              <p style="font-size:0.88rem;">Go to <strong>Settings</strong> > <strong>Pages</strong>. Select the "main" branch and click "Save."</p>
             </div>
           </div>
           <div class="gh-step">
             <div class="gh-num">4</div>
             <div class="gh-body">
-              <h3>Enable Pages</h3>
-              <p style="font-size:0.87rem;">In Settings > Pages, select <code>main</code> branch and click Save.</p>
-            </div>
-          </div>
-          <div class="gh-step">
-            <div class="gh-num">5</div>
-            <div class="gh-body">
-              <h3>Site is live</h3>
-              <p style="font-size:0.87rem;">Your site will be at <code>yourusername.github.io/my-site</code>.</p>
+              <h3>Share the link</h3>
+              <p style="font-size:0.88rem;">GitHub will provide a URL (like <code>yourname.github.io/my-first-website</code>). Your site is now live for anyone to see!</p>
             </div>
           </div>
         </div>
 
         <div class="final-banner reveal">
-          <h3>You are a web developer now.</h3>
-          <p>A real page, on a real URL, written by you. Welcome.</p>
+          <h3>The journey begins now.</h3>
+          <p>You have the tools, the path, and the mindset. The only thing left to do is write the first line of code.</p>
         </div>
       </div>
     </section>
@@ -1007,262 +905,162 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
   </main>
 
   <footer>
-    <p>A Beginner's Guide to Code &nbsp;&middot;&nbsp; Free &nbsp;&middot;&nbsp; No prerequisites &nbsp;&middot;&nbsp; No gatekeeping</p>
+    <div class="container">
+      <p>Build with curiosity. Written for beginners. &copy; 2024</p>
+    </div>
   </footer>
 
   <script>
     // ============================================================
-    // THEME
+    // THEME TOGGLE
     // ============================================================
     function toggleTheme() {
       const html = document.documentElement;
-      const isDark = html.dataset.theme === 'dark';
-      html.dataset.theme = isDark ? 'light' : 'dark';
-      localStorage.setItem('theme', html.dataset.theme);
-      document.getElementById('theme-btn').textContent = isDark ? 'Dark mode' : 'Light mode';
+      const btn = document.getElementById('theme-btn');
+      if (html.getAttribute('data-theme') === 'light') {
+        html.setAttribute('data-theme', 'dark');
+        btn.textContent = 'Light mode';
+      } else {
+        html.setAttribute('data-theme', 'light');
+        btn.textContent = 'Dark mode';
+      }
     }
-    (function(){
-      const s = localStorage.getItem('theme') || 'light';
-      document.documentElement.dataset.theme = s;
-      document.getElementById('theme-btn').textContent = s === 'dark' ? 'Light mode' : 'Dark mode';
-    })();
 
     // ============================================================
-    // COPY TO CLIPBOARD
+    // SCROLL REVEAL & PROGRESS
     // ============================================================
-    function copyCode(button) {
-      const pre = button.nextElementSibling;
-      const text = pre.innerText;
+    const reveals = document.querySelectorAll('.reveal');
+    const mainProgress = document.getElementById('main-progress');
+    const progressPct = document.getElementById('progress-pct');
 
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = button.textContent;
-        button.textContent = 'Copied!';
-        button.style.background = 'var(--green)';
-        button.style.color = '#fff';
-        
-        setTimeout(() => {
-          button.textContent = originalText;
-          button.style.background = '';
-          button.style.color = '';
-        }, 2000);
+    function handleScroll() {
+      const windowH = window.innerHeight;
+      reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < windowH * 0.88) el.classList.add('visible');
       });
-    }
 
-    // ============================================================
-    // SCROLL REVEAL
-    // ============================================================
-    const ro = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.07 });
-    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-
-    // ============================================================
-    // PROGRESS
-    // ============================================================
-    const sectionIds = ['tools','languages','playground','roadmap','projects','darkmode','quiz','mindset','github'];
-    let seen = new Set(JSON.parse(localStorage.getItem('seen-v2') || '[]'));
-    function updateProgress(){
-      const pct = Math.round((seen.size / sectionIds.length) * 100);
-      document.getElementById('main-progress').style.width = pct + '%';
-      document.getElementById('progress-pct').textContent = pct + '%';
+      // Progress bar logic
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      mainProgress.style.width = scrolled + "%";
+      progressPct.textContent = Math.round(scrolled) + "%";
     }
-    const po = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting && e.target.id) {
-          seen.add(e.target.id);
-          localStorage.setItem('seen-v2', JSON.stringify([...seen]));
-          updateProgress();
-        }
-      });
-    }, { threshold: 0.25 });
-    document.querySelectorAll('section[id]').forEach(s => po.observe(s));
-    setTimeout(updateProgress, 400);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
 
     // ============================================================
     // LANGUAGE TABS
     // ============================================================
-    function switchLang(e, lang) {
-      document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
+    function switchLang(e, langId) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('lp-' + lang).classList.add('active');
-      e.target.classList.add('active');
+      document.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      document.getElementById('lp-' + langId).classList.add('active');
     }
 
     // ============================================================
-    // PLAYGROUND SNIPPETS
+    // PLAYGROUND LOGIC
     // ============================================================
+    const editor = document.getElementById('code-editor');
+    const preview = document.getElementById('preview');
+
     const snippets = {
-      default: `<style>
-  body {
-    font-family: Georgia, serif;
-    padding: 2.5rem;
-    background: #faf7f2;
-    color: #1a1612;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  h1 { font-size: 2rem; margin-bottom: 0.5rem; font-style: italic; }
-  p  { color: #5c5040; line-height: 1.75; }
-</style>
-<h1>Hello, World.</h1>
-<p>Change this text and press Run to see it update.</p>`,
-
-      typography: `<style>
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #faf7f2; padding: 3rem 2.5rem; font-family: Georgia, serif; }
-  .overline {
-    font-family: sans-serif; font-size: 0.72rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: #8c7b65; margin-bottom: 1rem;
-    padding-bottom: 0.75rem; border-bottom: 1px solid #d9cfc0;
-    display: block;
-  }
-  h1 {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 3.2rem; font-style: italic; font-weight: 400;
-    color: #1a1612; margin-bottom: 0.2rem; line-height: 1.1;
-  }
-  .drop { font-size: 4.5rem; float: left; line-height: 0.85; margin: 0.12rem 0.2rem 0 0; color: #b85c2a; font-family: 'EB Garamond', serif; }
-  p { font-size: 1.05rem; line-height: 1.85; color: #5c5040; max-width: 440px; margin-top: 1.2rem; }
-</style>
-<span class="overline">Typography in code</span>
-<h1>On Readability.</h1>
-<p><span class="drop">G</span>ood typography disappears. When type is working, the reader is not aware of it.</p>`,
-
-      button: `<style>
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:100vh; background:#faf7f2; font-family:Georgia, serif; gap:1.5rem; }
-  .btn {
-    padding: 0.7rem 2rem; background: #1a1612; color: #faf7f2;
-    border: none; border-radius: 2px; font-family: inherit;
-    font-size: 0.88rem; letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s;
-  }
-  .btn:hover { background: #b85c2a; transform: translateY(-1px); }
-  #msg { font-style: italic; color: #5c5040; font-size: 0.9rem; min-height: 1.2rem; }
-</style>
-<button class="btn" onclick="document.getElementById('msg').textContent='It works.'">Click me</button>
-<div id="msg"></div>`,
-
-      card: `<style>
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f3ede3; font-family:Georgia, serif; }
-  .card { background:#fff; border:1px solid #d9cfc0; border-radius:6px; padding:2.5rem; width:290px; text-align:center; }
-  .avatar { width:68px; height:68px; border-radius:50%; background:#1a1612; color:#faf7f2; font-size:1.6rem; display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem; font-family:sans-serif; }
-  h2 { font-size:1.25rem; font-style:italic; margin-bottom:0.2rem; color:#1a1612; }
-</style>
-<div class="card">
-  <div class="avatar">A</div>
-  <h2>Ada Lovelace</h2>
-</div>`,
-
-      darkmode: `<style>
-  :root { --bg:#faf7f2; --text:#1a1612; }
-  [data-theme="dark"] { --bg:#100e0b; --text:#ede6da; }
-  body { background:var(--bg); color:var(--text); transition:all 0.3s ease; font-family:Georgia,serif; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:2rem; }
-  button { padding:0.6rem 1.5rem; background:var(--text); color:var(--bg); border:none; border-radius:2px; cursor:pointer; }
-</style>
-<h2>Dark mode toggle.</h2>
-<button onclick="
-  const h = document.documentElement;
-  h.dataset.theme = h.dataset.theme === 'dark' ? 'light' : 'dark';
-  this.textContent = h.dataset.theme === 'dark' ? 'Switch to light' : 'Switch to dark';
-">Switch to dark</button>`,
-
-      counter: `<style>
-  body { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; background:#100e0b; font-family:Georgia,serif; gap:2rem; }
-  #n { font-size:6rem; color:#ede6da; line-height:1; font-style:italic; }
-  button { width:3rem; height:3rem; border:1px solid #332d24; background:none; color:#a89880; font-size:1.2rem; cursor:pointer; transition:all 0.15s; }
-  button:hover { background:#ede6da; color:#100e0b; }
-</style>
-<div id="n">0</div>
-<div class="row">
-  <button onclick="adj(-1)">&minus;</button>
-  <button onclick="adj(1)">+</button>
-</div>
-<script>
-let v = 0;
-function adj(d) { v += d; document.getElementById('n').textContent = v; }
-<\/script>`,
-
-      animation: `<style>
-  body { background:#100e0b; display:flex; align-items:center; justify-content:center; min-height:100vh; }
-  .ring {
-    width:90px; height:90px; border-radius:50%;
-    border:1.5px solid transparent; border-top-color:#d4784a;
-    animation:spin 1.2s linear infinite;
-  }
-  @keyframes spin { to { transform:rotate(360deg); } }
-</style>
-<div class="ring"></div>`,
-
-      form: `<style>
-  body { display:flex; justify-content:center; align-items:center; min-height:100vh; background:#faf7f2; font-family:Georgia, serif; padding:2rem; }
-  .form { background:#fff; border:1px solid #d9cfc0; border-radius:6px; padding:2.5rem; width:100%; max-width:380px; }
-  input { display:block; width:100%; padding:0.6rem; border:1px solid #d9cfc0; margin-bottom:1rem; }
-  button { width:100%; padding:0.65rem; background:#1a1612; color:#faf7f2; border:none; cursor:pointer; }
-</style>
-<div class="form">
-  <h2>Say hello.</h2>
-  <input type="text" placeholder="Your name" />
-  <button onclick="alert('Message Sent')">Send</button>
-</div>`
+      default: `\n<h1>Hello, World!</h1>\n<p>Try changing the text or the color below.</p>\n<style>\n  h1 { color: #b85c2a; font-family: serif; }\n  body { padding: 20px; font-family: sans-serif; }\n</style>`,
+      typography: `<h2>Typography Basics</h2>\n<p class="serif">This is a serif font.</p>\n<p class="sans">This is a sans-serif font.</p>\n<p class="mono">This is a monospace font.</p>\n\n<style>\n  .serif { font-family: serif; }\n  .sans { font-family: sans-serif; }\n  .mono { font-family: monospace; color: #666; }\n  body { padding: 20px; line-height: 1.6; }\n</style>`,
+      button: `<h2>Interactive Button</h2>\n<button class="my-btn" onclick="alert('Success!')">Click Me</button>\n\n<style>\n  .my-btn {\n    background: #2a6b8c;\n    color: white;\n    border: none;\n    padding: 10px 20px;\n    border-radius: 4px;\n    cursor: pointer;\n    font-family: sans-serif;\n    font-weight: 600;\n    transition: 0.2s;\n  }\n  .my-btn:hover { background: #b85c2a; }\n  body { padding: 30px; }\n</style>`,
+      card: `<div class="card">\n  <div class="avatar"></div>\n  <h3>Jane Doe</h3>\n  <p>Frontend Developer & Designer</p>\n  <button class="btn">Follow</button>\n</div>\n\n<style>\n  body { background: #f0f0f0; padding: 40px; display: flex; justify-content: center; }\n  .card {\n    background: white;\n    padding: 30px;\n    border-radius: 12px;\n    text-align: center;\n    box-shadow: 0 4px 12px rgba(0,0,0,0.1);\n    font-family: sans-serif;\n    max-width: 200px;\n  }\n  .avatar {\n    width: 60px; height: 60px; background: #ddd; border-radius: 50%; margin: 0 auto 15px;\n  }\n  h3 { margin: 0 0 5px; color: #333; }\n  p { margin: 0 0 20px; color: #777; font-size: 14px; }\n  .btn { width: 100%; padding: 8px; background: #333; color: white; border: none; border-radius: 4px; }\n</style>`,
+      darkmode: `<div class="container" id="box">\n  <h1>Dark Mode Toggle</h1>\n  <p>Click the button below to switch themes.</p>\n  <button onclick="toggle()">Toggle Theme</button>\n</div>\n\n<script>\nfunction toggle() {\n  const b = document.getElementById('box');\n  b.classList.toggle('dark');\n}\n<\/script>\n\n<style>\n  body { margin: 0; font-family: sans-serif; }\n  .container {\n    height: 100vh; padding: 40px; transition: 0.3s;\n    background: white; color: black;\n  }\n  .container.dark {\n    background: #222; color: white;\n  }\n  button { padding: 10px 20px; margin-top: 20px; cursor: pointer; }\n</style>`,
+      counter: `<h2>Simple Counter</h2>\n<p id="count">0</p>\n<button onclick="change(1)">Add</button>\n<button onclick="change(-1)">Subtract</button>\n\n<script>\nlet val = 0;\nfunction change(n) {\n  val += n;\n  document.getElementById('count').innerText = val;\n}\n<\/script>\n\n<style>\n  body { padding: 40px; text-align: center; font-family: sans-serif; }\n  #count { font-size: 48px; font-weight: bold; margin: 20px 0; color: #2a6b8c; }\n  button { padding: 8px 16px; margin: 0 5px; cursor: pointer; }\n</style>`,
+      animation: `<div class="circle"></div>\n\n<style>\n  body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }\n  .circle {\n    width: 80px; height: 80px;\n    background: #b85c2a;\n    border-radius: 50%;\n    animation: pulse 2s infinite ease-in-out;\n  }\n  @keyframes pulse {\n    0% { transform: scale(0.8); opacity: 0.5; }\n    50% { transform: scale(1.2); opacity: 1; }\n    100% { transform: scale(0.8); opacity: 0.5; }\n  }\n</style>`,
+      form: `<form onsubmit="event.preventDefault(); alert('Form Submitted!')">\n  <h3>Newsletter</h3>\n  <input type="email" placeholder="Email address" required>\n  <button type="submit">Subscribe</button>\n</form>\n\n<style>\n  body { padding: 40px; font-family: sans-serif; }\n  form { max-width: 300px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }\n  input {\n    width: 100%; padding: 10px; margin: 10px 0 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;\n  }\n  button { width: 100%; padding: 10px; background: #2a6b4a; color: white; border: none; border-radius: 4px; cursor: pointer; }\n</style>`
     };
 
-    function loadSnippet(k) {
-      document.getElementById('code-editor').value = snippets[k];
+    function loadSnippet(id) {
+      editor.value = snippets[id];
       runCode();
     }
+
     function runCode() {
-      document.getElementById('preview-frame').srcdoc = document.getElementById('code-editor').value;
+      const val = editor.value;
+      const doc = preview.contentDocument || preview.contentWindow.document;
+      doc.open();
+      doc.write(val);
+      doc.close();
     }
+
+    // Default load
     loadSnippet('default');
 
-    // ============================================================
-    // QUIZ
-    // ============================================================
-    const qs = [
-      { q: 'What does HTML stand for?', opts: ['HyperText Markup Language','High-Tech Machine Language','HyperText Modern Layout','HyperTool Markup Logic'], a: 0 },
-      { q: 'Which language controls colors and fonts on a webpage?', opts: ['JavaScript','Python','HTML','CSS'], a: 3 },
-      { q: 'What does a <p> tag create in HTML?', opts: ['A picture','A page break','A paragraph','A button'], a: 2 },
-      { q: 'What is GitHub Pages used for?', opts: ['Writing Python scripts','Hosting websites for free','Editing video files','Drawing wireframes'], a: 1 },
-      { q: 'Which language is most used for data science and AI?', opts: ['Swift','HTML','JavaScript','Python'], a: 3 },
-    ];
-    let qi = 0, score = 0, answered = false;
+    // Added Copy Functionality
+    function copyContent(elementId, isTextArea = false) {
+      let text;
+      if (isTextArea) {
+        text = document.getElementById(elementId).value;
+      } else {
+        text = document.getElementById(elementId).innerText;
+      }
 
-    function renderQ() {
-      answered = false;
-      document.getElementById('quiz-q').textContent = qs[qi].q;
-      document.getElementById('quiz-num').textContent = qi + 1;
-      document.getElementById('quiz-feedback').textContent = '';
-      document.getElementById('quiz-next-btn').style.display = 'none';
-      document.getElementById('quiz-restart-btn').style.display = 'none';
-      const el = document.getElementById('quiz-opts');
-      el.innerHTML = '';
-      qs[qi].opts.forEach((o, i) => {
-        const b = document.createElement('button');
-        b.className = 'quiz-opt'; b.textContent = o;
-        b.onclick = () => answer(i, b);
-        el.appendChild(b);
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.currentTarget;
+        const originalText = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => { btn.textContent = originalText; }, 2000);
       });
     }
 
-    function answer(i, btn) {
-      if (answered) return;
-      answered = true;
-      document.querySelectorAll('.quiz-opt').forEach(b => b.style.pointerEvents = 'none');
-      if (i === qs[qi].a) {
-        btn.classList.add('correct'); score++;
+    // ============================================================
+    // QUIZ LOGIC
+    // ============================================================
+    const questions = [
+      { q: "Which language is used to structure the content of a webpage?", o: ["CSS", "HTML", "JavaScript", "Python"], a: 1 },
+      { q: "What tool do developers use to save their work and undo mistakes?", o: ["GitHub", "Spotify", "Excel", "Discord"], a: 0 },
+      { q: "Which language makes a website interactive (like a calculator)?", o: ["HTML", "Swift", "JavaScript", "CSS"], a: 2 },
+      { q: "What is the recommended first project for a beginner?", o: ["A social media app", "A personal portfolio", "A cryptocurrency", "An AI model"], a: 1 },
+      { q: "Where can you host a website for free?", o: ["GitHub Pages", "Amazon", "Microsoft Word", "Photoshop"], a: 0 }
+    ];
+
+    let qi = 0, score = 0;
+
+    function renderQ() {
+      const q = questions[qi];
+      document.getElementById('quiz-question').textContent = q.q;
+      const optWrap = document.getElementById('quiz-options');
+      optWrap.innerHTML = '';
+      document.getElementById('quiz-feedback').textContent = '';
+      document.getElementById('quiz-next-btn').style.display = 'none';
+      
+      q.o.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt';
+        btn.textContent = opt;
+        btn.onclick = () => checkAns(idx, btn);
+        optWrap.appendChild(btn);
+      });
+    }
+
+    function checkAns(idx, btn) {
+      const correct = questions[qi].a;
+      const all = document.querySelectorAll('.quiz-opt');
+      all.forEach(b => b.onclick = null); // Disable others
+
+      if (idx === correct) {
+        btn.classList.add('correct');
+        score++;
         document.getElementById('quiz-score').textContent = score;
-        document.getElementById('quiz-feedback').textContent = 'Correct.';
-        confetti();
+        document.getElementById('quiz-feedback').textContent = "Correct! Nice job.";
       } else {
         btn.classList.add('wrong');
-        document.querySelectorAll('.quiz-opt')[qs[qi].a].classList.add('correct');
-        document.getElementById('quiz-feedback').textContent = 'Not quite. The correct answer is highlighted.';
+        all[correct].classList.add('correct');
+        document.getElementById('quiz-feedback').textContent = "Not quite. The correct answer is highlighted.";
       }
-      if (qi < qs.length - 1) document.getElementById('quiz-next-btn').style.display = 'inline-block';
-      else {
-        document.getElementById('quiz-feedback').textContent += '  Final score: ' + score + ' / ' + qs.length + '.';
+
+      if (qi < questions.length - 1) {
+        document.getElementById('quiz-next-btn').style.display = 'inline-block';
+      } else {
+        confetti();
+        document.getElementById('quiz-feedback').textContent += ` You finished the quiz! 🎉`;
         document.getElementById('quiz-restart-btn').style.display = 'inline-block';
       }
     }
@@ -1291,10 +1089,11 @@ function adj(d) { v += d; document.getElementById('n').textContent = v; }
         ctx.clearRect(0,0,c.width,c.height);
         ps.forEach(p=>{
           ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
-          ctx.fillStyle=p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
-          p.x+=p.dx; p.y+=p.dy; p.rot+=p.dr;
+          ctx.fillStyle = p.col; ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+          ctx.restore();
+          p.x += p.dx; p.y += p.dy; p.rot += p.dr;
         });
-        if(ps.some(p=>p.y<c.height)) raf=requestAnimationFrame(draw);
+        if (ps.some(p => p.y < c.height)) raf = requestAnimationFrame(draw);
         else ctx.clearRect(0,0,c.width,c.height);
       })();
     }
