@@ -19,7 +19,7 @@
       --text:         #1a1612;
       --text-2:       #5c5040;
       --text-3:       #8c7b65;
-      --accent:       #b85c2a;
+      --accent:       #a64d1d;
       --accent-soft:  #f5e6d8;
       --accent-2:     #2a6b8c;
       --accent-2-soft:#d8ecf5;
@@ -133,6 +133,38 @@
     }
     .theme-btn:hover { border-color: var(--text-3); color: var(--text); }
 
+   /* ============================================================
+       COPY BUTTON STYLES
+    ============================================================ */
+    .code-block-wrapper {
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--code-text);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.65rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+      opacity: 0;
+    }
+    .code-block-wrapper:hover .copy-btn {
+      opacity: 1;
+    }
+    .copy-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    
     /* ============================================================
        HERO
     ============================================================ */
@@ -441,6 +473,8 @@
     @media(max-width:600px) {
       .nav-links { display: none; }
       section { padding: 4rem 0; }
+   .playground-grid { grid-template-columns: 1fr; }
+  .code-editor, .preview-pane, .preview-pane iframe { min-height: 220px; }
     }
   </style>
 </head>
@@ -564,7 +598,9 @@
         </div>
 
         <div id="lp-html" class="lang-panel card active">
-          <p class="lang-note">HTML structures the content of every webpage. It is not technically a programming language, but it is where every web developer begins.</p>
+          <p class="lang-note">HTML structures the content of every webpage. It's not technically a programming language, but it is where every web developer begins.</p>
+          <div class="code-block-wrapper">
+           <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           <pre><span class="ck">&lt;!-- A comment. The browser ignores this. --&gt;</span>
 <span class="kw">&lt;h1&gt;</span>Hello, World!<span class="kw">&lt;/h1&gt;</span>
 <span class="kw">&lt;p&gt;</span>This is a paragraph of text.<span class="kw">&lt;/p&gt;</span>
@@ -574,7 +610,7 @@
         </div>
 
         <div id="lp-css" class="lang-panel card">
-          <p class="lang-note">CSS controls how HTML looks: colors, fonts, spacing, layout. It is what separates a raw document from a designed page.</p>
+          <p class="lang-note">CSS controls how HTML looks: colors, fonts, spacing, layout. It's what separates a raw document from a designed page.</p>
           <pre><span class="ck">/* Change how the whole page looks */</span>
 <span class="fn">body</span> {
   <span class="kw">background-color</span>: <span class="st">#faf7f2</span>;
@@ -589,6 +625,8 @@
 
         <div id="lp-js" class="lang-panel card">
           <p class="lang-note">JavaScript makes websites interactive. Buttons that respond, forms that validate, animations, games — all of it is JavaScript.</p>
+          <div class="code-block-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           <pre><span class="ck">// Store a value in a variable</span>
 <span class="kw">let</span> name = <span class="st">"World"</span>;
 
@@ -605,6 +643,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
         <div id="lp-python" class="lang-panel card">
           <p class="lang-note">Python reads almost like plain English. It is the dominant language for data science, AI, and automation, and one of the most beginner-friendly options available.</p>
+         <div class="code-block-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           <pre><span class="ck"># Print a message to the terminal</span>
 <span class="kw">print</span>(<span class="st">"Hello, World!"</span>)
 
@@ -618,6 +658,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 
         <div id="lp-swift" class="lang-panel card">
           <p class="lang-note">Swift is Apple's language for building iPhone, iPad, and Mac apps. It is modern, fast, and designed from the ground up to be readable.</p>
+          <div class="code-block-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           <pre><span class="ck">// Swift — used for iOS and macOS apps</span>
 <span class="kw">import</span> Foundation
 
@@ -812,6 +854,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
                 you define named variables once inside <code>:root</code>. Every element that references
                 <code>var(--bg)</code> will automatically update when that variable's value changes.
               </p>
+              <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
               <pre><span class="fn">:root</span> {
   <span class="kw">--bg</span>:     <span class="nm">#faf7f2</span>;
   <span class="kw">--text</span>:   <span class="nm">#1a1612</span>;
@@ -833,6 +877,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
                 <code>data-theme="dark"</code>, CSS redefines those same variable names with
                 dark values. No element rules change at all — only what the variables hold.
               </p>
+              <div class="code-block-wrapper">
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
               <pre><span class="fn">[data-theme="dark"]</span> {
   <span class="kw">--bg</span>:     <span class="nm">#100e0b</span>;
   <span class="kw">--text</span>:   <span class="nm">#ede6da</span>;
@@ -1020,6 +1066,27 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
       document.getElementById('theme-btn').textContent = s === 'dark' ? 'Light mode' : 'Dark mode';
     })();
 
+// ============================================================
+    // COPY TO CLIPBOARD
+    // ============================================================
+    function copyCode(button) {
+      const pre = button.nextElementSibling;
+      const text = pre.innerText;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        button.style.background = 'var(--green)';
+        button.style.color = '#fff';
+        
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = '';
+          button.style.color = '';
+        }, 2000);
+      });
+    }
+    
     // ============================================================
     // SCROLL REVEAL
     // ============================================================
