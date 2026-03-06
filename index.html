@@ -1098,52 +1098,41 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
     // ============================================================
-    // PROGRESS (Clean & Functional)
+    // PROGRESS & REVEAL (Functional & Resets on Refresh)
     // ============================================================
-    const sectionIds = ['tools','languages','playground','roadmap','projects','darkmode','quiz','mindset','github'];
+    const sectionIds = ['tools','languages','playground','roadmap','projects','quiz','mindset','github'];
     let seen = new Set(); 
 
     function updateProgress() {
       const progressBar = document.getElementById('main-progress');
       const progressText = document.getElementById('progress-pct');
+      const pct = Math.round((seen.size / sectionIds.length) * 100);
       
-      if (sectionIds.length > 0) {
-        const pct = Math.round((seen.size / sectionIds.length) * 100);
-        if (progressBar) progressBar.style.width = pct + '%';
-        if (progressText) progressText.textContent = pct + '%';
-      }
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (progressText) progressText.textContent = pct + '%';
     }
 
-    const po = new IntersectionObserver((entries) => {
+    // This observer handles both the Progress Bar and the Scroll Reveals
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting && sectionIds.includes(e.target.id)) {
-          seen.add(e.target.id);
-          updateProgress();
-        }
-      });
-    }, { threshold: 0.1 }); // Lowered threshold to 0.1 to make it trigger easier
+        if (e.isIntersecting) {
+          // 1. Reveal the element
+          e.target.classList.add('visible');
 
-    document.querySelectorAll('section[id]').forEach(s => {
-      if (sectionIds.includes(s.id)) {
-        po.observe(s);
-      }
-    });
-    
-    updateProgress();
+          // 2. If it's a main section, update the progress bar
+          if (sectionIds.includes(e.target.id)) {
+            seen.add(e.target.id);
+            updateProgress();
+          }
         }
       });
-    }, { threshold: 0.25 }); // Triggers when 25% of the section is visible
+    }, { threshold: 0.1 });
 
-    // Start observing all sections that have IDs
-    document.querySelectorAll('section[id]').forEach(s => po.observe(s));
+    // Start watching all sections and revealable elements
+    document.querySelectorAll('section[id], .reveal').forEach(el => observer.observe(el));
     
-    // Initial call to set to 0%
+    // Set to 0% immediately on load
     updateProgress();
-        }
-      });
-    }, { threshold: 0.25 });
-    document.querySelectorAll('section[id]').forEach(s => po.observe(s));
-    setTimeout(updateProgress, 400);
 
     // ============================================================
     // LANGUAGE TABS
