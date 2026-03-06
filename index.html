@@ -1098,28 +1098,38 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
     // ============================================================
-    // PROGRESS (Functional & Resets on Refresh)
+    // PROGRESS (Clean & Functional)
     // ============================================================
     const sectionIds = ['tools','languages','playground','roadmap','projects','darkmode','quiz','mindset','github'];
-    
-    // We initialize an empty Set so it always starts at 0% on refresh
     let seen = new Set(); 
 
-    function updateProgress(){
-      const pct = Math.round((seen.size / sectionIds.length) * 100);
+    function updateProgress() {
       const progressBar = document.getElementById('main-progress');
       const progressText = document.getElementById('progress-pct');
       
-      if (progressBar) progressBar.style.width = pct + '%';
-      if (progressText) progressText.textContent = pct + '%';
+      if (sectionIds.length > 0) {
+        const pct = Math.round((seen.size / sectionIds.length) * 100);
+        if (progressBar) progressBar.style.width = pct + '%';
+        if (progressText) progressText.textContent = pct + '%';
+      }
     }
 
-    const po = new IntersectionObserver(entries => {
+    const po = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        // If a section comes into view and it's in our list, add it to progress
         if (e.isIntersecting && sectionIds.includes(e.target.id)) {
           seen.add(e.target.id);
           updateProgress();
+        }
+      });
+    }, { threshold: 0.1 }); // Lowered threshold to 0.1 to make it trigger easier
+
+    document.querySelectorAll('section[id]').forEach(s => {
+      if (sectionIds.includes(s.id)) {
+        po.observe(s);
+      }
+    });
+    
+    updateProgress();
         }
       });
     }, { threshold: 0.25 }); // Triggers when 25% of the section is visible
@@ -1410,6 +1420,7 @@ function adj(d) { v = d === 0 ? 0 : v + d; document.getElementById('n').textCont
         else ctx.clearRect(0,0,c.width,c.height);
       })();
     }
+ updateProgress();
   </script>
 </body>
 </html>
