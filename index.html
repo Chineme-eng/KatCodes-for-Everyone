@@ -1098,21 +1098,37 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
     document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 
     // ============================================================
-    // PROGRESS
+    // PROGRESS (Functional & Resets on Refresh)
     // ============================================================
     const sectionIds = ['tools','languages','playground','roadmap','projects','darkmode','quiz','mindset','github'];
-    let seen = new Set(JSON.parse(localStorage.getItem('seen-v2') || '[]'));
+    
+    // We initialize an empty Set so it always starts at 0% on refresh
+    let seen = new Set(); 
+
     function updateProgress(){
       const pct = Math.round((seen.size / sectionIds.length) * 100);
-      document.getElementById('main-progress').style.width = pct + '%';
-      document.getElementById('progress-pct').textContent = pct + '%';
+      const progressBar = document.getElementById('main-progress');
+      const progressText = document.getElementById('progress-pct');
+      
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (progressText) progressText.textContent = pct + '%';
     }
+
     const po = new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting && e.target.id) {
+        // If a section comes into view and it's in our list, add it to progress
+        if (e.isIntersecting && sectionIds.includes(e.target.id)) {
           seen.add(e.target.id);
-          localStorage.setItem('seen-v2', JSON.stringify([...seen]));
           updateProgress();
+        }
+      });
+    }, { threshold: 0.25 }); // Triggers when 25% of the section is visible
+
+    // Start observing all sections that have IDs
+    document.querySelectorAll('section[id]').forEach(s => po.observe(s));
+    
+    // Initial call to set to 0%
+    updateProgress();
         }
       });
     }, { threshold: 0.25 });
