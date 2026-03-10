@@ -69,17 +69,7 @@ Open the folder and launch **index.html** in your browser.
 
 ---
 
-## Screenshot
-
-Add a screenshot of the site here.
-
-Example:
-
-```
-assets/screenshot.png
-```
-
-Then add this to the README:
+## Preview
 
 ```markdown
 ![KatCodes Screenshot](assets/screenshot2.png)
