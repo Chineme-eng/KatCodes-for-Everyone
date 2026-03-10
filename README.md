@@ -75,8 +75,6 @@ Open the folder and launch **index.html** in your browser.
 
 ---
 
----
-
 ## Who This Is For
 
 This guide is designed for:
