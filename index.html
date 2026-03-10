@@ -390,23 +390,29 @@
     .level-starter { background: var(--green-soft);   color: var(--green); }
     .level-next    { background: var(--accent-2-soft); color: var(--accent-2); }
 
-   /* ============================================================
+/* ============================================================
        EXPLAINER
     ============================================================ */
     .explainer-step { 
       display: grid; 
       grid-template-columns: 2rem 1fr; 
       gap: 1.25rem; 
-      /* We remove margin-bottom here to let the padding handle the gap */
-      margin-bottom: 0; 
+      margin-bottom: 0; /* Remove margin so padding handles the gap */
       align-items: start; 
     }
 
+    /* This targets the text area specifically */
     .explainer-step > div:last-child {
       width: 100%;
-      /* This is the secret—it forces Step 4 to be as tall as Step 3 */
-      min-height: 120px; 
-      padding-bottom: 2.5rem;
+      min-height: 130px; /* Forces Step 4 to be as tall as Step 3 */
+      padding-bottom: 2.5rem; /* Creates the consistent gap between steps */
+    }
+
+    .step-num { 
+      font-family: 'EB Garamond', serif; 
+      font-size: 1.1rem; 
+      color: var(--text-3); 
+      padding-top: 0.1rem; 
     }
     
     /* ============================================================
