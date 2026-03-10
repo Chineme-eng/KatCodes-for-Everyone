@@ -69,11 +69,11 @@ Open the folder and launch **index.html** in your browser.
 
 ---
 
-## Preview
+## 📸 Preview
 
-```markdown
-![Preview](assets/screenshot2.png)
-```
+![KatCodes For Everyone Screenshot](assets/screenshot2.png)
+
+---
 
 ---
 
