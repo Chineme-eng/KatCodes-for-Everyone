@@ -851,8 +851,8 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
                 <code>var(--bg)</code> will automatically update when that variable's value changes.
               </p>
               <div class="code-block-wrapper">
-              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              <pre><span class="fn">:root</span> {
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre><span class="fn">:root</span> {
   <span class="kw">--bg</span>:     <span class="nm">#faf7f2</span>;
   <span class="kw">--text</span>:   <span class="nm">#1a1612</span>;
   <span class="kw">--accent</span>: <span class="nm">#b85c2a</span>;
@@ -861,9 +861,9 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
   <span class="kw">background</span>: <span class="st">var(--bg)</span>;
   <span class="kw">color</span>:      <span class="st">var(--text)</span>;
 }</pre>
+              </div>
             </div>
-          </div>
-          <div class="explainer-step reveal">
+          </div> <div class="explainer-step reveal">
             <div class="step-num">2</div>
             <div>
               <h3>Override the variables for dark mode</h3>
@@ -873,15 +873,15 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
                 dark values. No element rules change at all — only what the variables hold.
               </p>
               <div class="code-block-wrapper">
-              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              <pre><span class="fn">[data-theme="dark"]</span> {
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                <pre><span class="fn">[data-theme="dark"]</span> {
   <span class="kw">--bg</span>:     <span class="nm">#100e0b</span>;
   <span class="kw">--text</span>:   <span class="nm">#ede6da</span>;
   <span class="kw">--accent</span>: <span class="nm">#d4784a</span>;
 }</pre>
+              </div>
             </div>
-          </div>
-          <div class="explainer-step reveal">
+          </div> <div class="explainer-step reveal">
             <div class="step-num">3</div>
             <div>
               <h3>Add smooth transitions</h3>
@@ -893,8 +893,7 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
   <span class="kw">transition</span>: <span class="st">background 0.3s ease, color 0.3s ease</span>;
 }</pre>
             </div>
-          </div>
-          <div class="explainer-step reveal">
+          </div> <div class="explainer-step reveal">
             <div class="step-num">4</div>
             <div>
               <h3>Toggle with JavaScript, remember the preference</h3>
@@ -914,7 +913,7 @@ document.<span class="fn">querySelector</span>(<span class="st">"button"</span>)
 <span class="kw">const</span> saved = localStorage.<span class="fn">getItem</span>(<span class="st">"theme"</span>);
 <span class="kw">if</span> (saved) document.documentElement.dataset.theme = saved;</pre>
             </div>
-          </div>
+          </div> 
         </div>
       </div>
     </section>
