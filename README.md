@@ -72,7 +72,7 @@ Open the folder and launch **index.html** in your browser.
 ## Preview
 
 ```markdown
-![KatCodes Screenshot](assets/screenshot2.png)
+![Preview](assets/screenshot2.png)
 ```
 
 ---
