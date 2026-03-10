@@ -76,7 +76,7 @@ Add a screenshot of the site here.
 Example:
 
 ```
-assets/screenshot2.png
+assets/screenshot.png
 ```
 
 Then add this to the README:
